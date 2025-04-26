@@ -32,36 +32,37 @@ const createEntry = async (req, res) => {
   }
 };
 
-//get entries for the user
 const getEntriesUser = async (req, res) => {
   try {
-    const entry = await Entry.find({user:req.user.id});
-
-    //checking for entry
-    if (!entry) {
+    const userId = req.user.id;
+    
+    // Find all entries that belong to the current user
+    const entries = await Entry.find({ user: userId });
+    
+    // Check if any entries exist
+    if (entries.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Entry not found",
+        message: "No entries found for this user",
       });
     }
-    //who owns the entry
-    if (entry.user.toString() !== req.user.id) {
-      
-    }
-    else{(
-        res.status(200).json({
-            success:true,
-            message:'present entry',
-            entry:entry
-        }))};
+    
+    // Return all found entries
+    res.status(200).json({
+      success: true,
+      message: 'Entries found',
+      entries: entries
+    });
+    
   } catch (error) {
-    console.log(error)
-      res.status(500)({
-      success: flase,
-      message: "Error on entry",
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving entries",
     });
   }
 };
+
 module.exports={
     createEntry,
     getEntriesUser

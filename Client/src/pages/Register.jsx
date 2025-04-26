@@ -15,12 +15,11 @@ function Register(){
  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('')
     const{username,email,password}=formData
     try {
       // Use your environment URL for flexibility
-      const response= await axios.post("api/auth/register", {
-        username,email,password
-      });
+      const response= await axios.post("/api/auth/register",formData);
       if(response.data.error){
         setError(response.data.error)
         console.log(response.data.error);
@@ -39,8 +38,11 @@ function Register(){
 
     } catch (error) {
       
-      console.log(error);
-      ;
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          "Registration failed. Please try again.";
+      setError(errorMessage);
+      console.error("Registration error:", errorMessage);
     }
   };
 
@@ -48,7 +50,7 @@ function Register(){
 return (
   <div>
     <form onSubmit={handleSubmit}>
-    
+      <label>Name</label>
       <input
         type="text"
         id="username"
@@ -61,6 +63,7 @@ return (
       <label>Email</label>
       <input
         type="email"
+        id="email"
         name="email"
         placeholder="Email@gmail.com"
         value={formData.email}
