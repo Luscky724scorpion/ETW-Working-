@@ -35,7 +35,7 @@ function Board() {
           setLoading(false);
           return;
         }
-
+        //this-is the thing
         const response = await axios.get(
           'api/feels/catch-feels', 
           {
