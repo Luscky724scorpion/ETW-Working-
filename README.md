@@ -13,8 +13,10 @@
 <li>View Logs</li>
    
 </ul>
-Tech Stack:
-React
-MongoDB
-Node.js▒
-Express JS
+<h3>Tech Stack:</h3>
+<ul>
+<li>React</li>
+<li>MongoDB</li>
+<li>Node.js</li>
+<li>Express JS</li>
+</ul>
