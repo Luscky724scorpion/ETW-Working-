@@ -84,11 +84,23 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false)
       }
     }
+    const logOut=()=>{
+      console.log('AuthContext:logging out')
+
+      setToken(null)
+      setUser(null)
+
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('authUser')
+
+      delete axiosInstance.defaults.headers.common['Authorization']
+    }
     const value = useMemo(
         () => ({
           token,
           user,
           signupAction, 
+          logOut,
           
           loginAction, // Include the login action function
         

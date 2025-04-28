@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import Quill from "quill";
-
+import Toolbar from "quill/modules/toolbar";
+import Theme from "quill/core/theme";
 
 
 
@@ -17,6 +18,7 @@ const Editor = forwardRef(
       onSelectionChangeRef.current = onSelectionChange;
       
     });
+    
 
     useEffect(() => {
       ref.current?.enable(!readOnly);
@@ -27,11 +29,15 @@ const Editor = forwardRef(
       const editorContainer = container.appendChild(
         container.ownerDocument.createElement("div")
       );
+      //toolbarOptions=[[{ 'color': [] },{'background':[]}]]
       const quill = new Quill(editorContainer, {
-        theme: "snow",
-        modules: {
-          toolbar: false // Disable the toolbar completely
-        }
+      modules:{
+        toolbar:[ [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],[{ 'color': [] }, { 'background': [] }] ,
+        ['image'], [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }]]
+      },
+       theme: "snow",
+        
       });
 
       ref.current = quill;
@@ -55,7 +61,7 @@ const Editor = forwardRef(
       };
     }, [ref]);
 
-    return <div ref={containerRef}></div>;
+    return <div style={{display:'flex', justifyContent:'center'}}><div style={{width:'90%',background:'white'}} ref={containerRef}></div></div>;
   }
 );
 

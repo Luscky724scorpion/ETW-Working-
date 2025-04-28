@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
+
 import { useAuth } from "../contexts/Authprovider";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import styles from "../assets/Register.module.css"
 function Register(){
   const Navigate=useNavigate()
   const [formData, setFormData] = useState({
@@ -70,9 +71,11 @@ function Register(){
 
 return (
   <div>
-    <form onSubmit={handleSubmit}>
-      <label>Name</label>
+    <form className={styles.formContainer} onSubmit={handleSubmit}>
+      <h2>Register</h2>
+      <label className={styles.label}>Name</label>
       <input
+      className={styles.input}
         type="text"
         id="username"
         name="username"
@@ -81,8 +84,9 @@ return (
         onChange={handleChange}
         required
       />
-      <label>Email</label>
+      <label className={styles.label}>Email</label>
       <input
+      className={styles.input}
         type="email"
         id="email"
         name="email"
@@ -91,8 +95,9 @@ return (
         onChange={handleChange}
         required
       />
-      <label>Password</label>
+      <label className={styles.label}>Password</label>
       <input
+      className={styles.input}
         type="password"
         placeholder="password"
         name="password"
@@ -100,7 +105,7 @@ return (
         onChange={handleChange}
         required
       />
-      <button type="submit" >
+      <button className={styles.button} type="submit" >
         Submit
       </button>
     </form>

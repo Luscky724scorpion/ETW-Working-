@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
-
+import styles from "../assets/Login.module.css";
 import { useLocation, useNavigate} from "react-router-dom";
 import {toast} from 'react-hot-toast'
-import axios from "axios";
+
 import { useAuth } from "../contexts/Authprovider";
 
 function LoginForm() {
@@ -50,9 +50,12 @@ const form=location.state?.form || '/journal'
     }
   }
     return (
-      <div>
+      <div className={styles.formContainer}>
+        <h2 className={styles.formContainer}>Login</h2>
         <form onSubmit={handleLogin}>
+          <label className={styles.label} >Username</label>
           <input
+          className={styles.input}
             type="text"
             id="username"
             placeholder="Sid456"
@@ -61,8 +64,9 @@ const form=location.state?.form || '/journal'
               setLoginData({ ...loginData, username: e.target.value })
             }required
           />
-          <label>Password</label>
+          <label className={styles.label}>Password</label>
           <input
+          className={styles.input}
             type="password"
             placeholder="password"
             onChange={(e) =>
@@ -71,7 +75,7 @@ const form=location.state?.form || '/journal'
             required
             value={loginData.password}
           />
-          <button type="submit">Submit</button>
+          <button className={styles.button} type="submit">Submit</button>
         </form>
       </div>
     );

@@ -1,6 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../contexts/AxiosInstance';
 
+const cardStyles={
+  container:{
+    display:"flex",
+    padding:20,
+    
+   
+    alignItems:"center",
+    justifyContent:'center',
+
+    borderRadius:20,
+    flexDirection:"column"
+  },entrycard:{
+    display:'flex',
+    flexDirection:'column',
+    boxShadow:"0 0 2px 3px black",
+    margin:10,
+    paddingRight:50,
+    paddingLeft:50,
+    borderRadius:20,
+    alignItems:'center'
+  }
+}
+
+
+ 
 function Logs() {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,18 +65,18 @@ console.log("Logs Component - Token Check:", tokenForDebug ? "Token found" : "NO
   if (error) return <div>Error: {error}</div>;
   
   return (
-    <div className="entries-list">
+    <div style={cardStyles.container}>
       <h2>Your Entries</h2>
       {entries.length === 0 ? (
         <p>No entries found. Create your first entry!</p>
       ) : (
         entries.map(entry => (
-          <div key={entry._id} className="entry-card">
+          <div key={entry._id} style={cardStyles.entrycard}>
             <h3>{entry.title}</h3>
             
-            <div className="entry-meta">
+            <h4 className="entry-meta">
               Created: {new Date(entry.createdAt).toLocaleDateString()}
-            </div>
+            </h4>
           </div>
         ))
       )}
