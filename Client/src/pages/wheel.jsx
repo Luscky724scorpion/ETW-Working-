@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Components/circle.css";
-import axios from "axios";
+import axiosInstance from "../contexts/AxiosInstance";
 
 function Wheel() {
   {
@@ -15,16 +15,10 @@ function Wheel() {
           setMessage("Log in!");
           return;
         } else {
-          const response = await axios.post(
+          const response = await axiosInstance.post(
             "/api/feels/log-feels",
             {
               feelings: feeling,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
             }
           );
           if (response.status === 200) {

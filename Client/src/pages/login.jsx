@@ -1,18 +1,26 @@
 import React from "react";
 import { useState } from "react";
 
-import { useNavigate} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import {toast} from 'react-hot-toast'
 import axios from "axios";
-;
+import { useAuth } from "../contexts/Authprovider";
+
 function LoginForm() {
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
   
+  const [error, setError] = useState('');
 
 const navigate=useNavigate()
+const location=useLocation()
+
+const{loginAction}=useAuth()
+const form=location.state?.form || '/journal'
+
+
  
 
   // Handle login submission and make POST request to backend
@@ -22,23 +30,22 @@ const navigate=useNavigate()
      
 
     try {
-      const response = await axios.post("/api/auth/login", {
-        username,
-        password
-      });
+     const loginSuccessful= await loginAction({username,password})
+      
      
-      if(response.data.error){
-        toast.error(response.data.error)
-      }else{
-        const token=response.data.token
+      if(loginSuccessful){
         setLoginData({username:'',password:''})
-        localStorage.setItem('token', token);
+        console.log("Login form success:going to journal")
         navigate('/journal')
+      
       }
       
       
     } catch (error) {
-      console.error(error);
+      console.error('Login form failed',error);
+      const errorMessage= error.response?.data?.message // Check for backend error message
+      || error.message  
+      setError(errorMessage)        
       toast.error('failed try again')
     }
   }
@@ -52,7 +59,7 @@ const navigate=useNavigate()
             value={loginData.username}
             onChange={(e) =>
               setLoginData({ ...loginData, username: e.target.value })
-            }
+            }required
           />
           <label>Password</label>
           <input
@@ -61,6 +68,7 @@ const navigate=useNavigate()
             onChange={(e) =>
               setLoginData({ ...loginData, password: e.target.value })
             }
+            required
             value={loginData.password}
           />
           <button type="submit">Submit</button>

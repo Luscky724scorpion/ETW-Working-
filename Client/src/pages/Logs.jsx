@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../contexts/AxiosInstance';
 
 function Logs() {
   const [entries, setEntries] = useState([]);
@@ -8,19 +8,23 @@ function Logs() {
   
   useEffect(() => {
     const fetchEntries = async () => {
+      const tokenForDebug = localStorage.getItem('authToken');
+console.log("Logs Component - Token Check:", tokenForDebug ? "Token found" : "NO TOKEN FOUND");
+      setLoading(true)
+      setError(null)
       try {
-        // Get token from localStorage
-        const token = localStorage.getItem('token');
         
-        const response = await axios.get('/api/create/display', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+      
         
-        if (response.data.success) {
+        const response = await axiosInstance.get('/api/create/display'
+        );
+       if(response.data.success){ 
+          console.log("Logs for entries ")
           setEntries(response.data.entries);
-        }
+       }else{
+        console.warn("Logs component error")
+        setEntries([])
+       }
       } catch (err) {
         console.error("Error fetching entries:", err);
         setError(err.response?.data?.message || "Failed to fetch entries");

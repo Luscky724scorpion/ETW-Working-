@@ -3,7 +3,7 @@ import "../app.css";
 import "../index.css";
 import Quill from "quill";
 import Editor from "../Editor";
-import axios from "axios";
+import axiosInstance from "../contexts/AxiosInstance";
 import JournalTitle from "../Components/Title";
 const Delta = Quill.import("delta");
 
@@ -30,17 +30,11 @@ function Journal() {
 
         console.log("Save content(Delta)",);
         
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           "/api/create/",
           {
             title: title,
             Delta: content,
-          },
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem("token")}`,
-              'Content-Type':'application/json'
-            },
           }
         );
         /*creator:userId,*/

@@ -13,11 +13,10 @@ import Journal from "./pages/Journal";
 import Register from "./pages/Register";
 import Home from "./pages/home";
 import LoginForm from "./pages/login";
-;
+import ProtectedRoute from "./contexts/ProtectedRoute";
 import axios from "axios";
-import Access from "./pages/access";
-axios.defaults.baseURL = "http://localhost:3000/";
-axios.defaults.withCredentials = true;
+
+
 
 function App() {
   return (
@@ -31,12 +30,12 @@ function App() {
         
         <Route path="/wheel" element={<Wheel />} />
 
-        <Route path="/Journal" element={<Journal />} />
-        <Route path="/Feelings" element={<Feelings />} />
+        <Route path="/Journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
+        <Route path="/Feelings" element={<ProtectedRoute><Feelings /></ProtectedRoute>} />
 
-        <Route path="/Logs" element={<Logs />} />
-        <Route path="/Board" element={<Board />} />
-        <Route path="/Access" element={<Access />} />
+        <Route path="/Logs" element={<ProtectedRoute><Logs /></ProtectedRoute>} />
+        <Route path="/Board" element={<ProtectedRoute><Board /></ProtectedRoute>} />
+        
       </Routes>
    </div>
     

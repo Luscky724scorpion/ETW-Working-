@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
+import axiosInstance from '../contexts/AxiosInstance';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,29 +28,21 @@ function Board() {
   useEffect(() => {
     const fetchFeelingsData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        
-        if (!token) {
-          setError('Authentication required');
-          setLoading(false);
-          return;
-        }
+        setLoading(true)
+        setError(null)
         //this-is the thing
-        const response = await axios.get(
-          'api/feels/catch-feels', 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
+        const response = await axiosInstance.get(
+          'api/feels/catch-feels'
         );
 
         setFeelingsData(response.data);
-        setLoading(false);
+        
       } catch (err) {
         console.error('Error fetching feelings data:', err);
         setError(err.response?.data?.message || 'Failed to fetch feelings data');
         setLoading(false);
+      }finally{
+        setLoading(false)
       }
     };
 
